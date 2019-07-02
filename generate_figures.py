@@ -58,8 +58,8 @@ def draw_uncurated_result_figure(png, Gs, cx, cy, cw, ch, rows, lods, seed):
 
 def draw_style_mixing_figure(png, Gs, w, h, src_seeds, dst_seeds, style_ranges):
     print(png)
-    src_latents = np.stack(np.random.RandomState(seed).randn(Gs.input_shape[1]) for seed in src_seeds)
-    dst_latents = np.stack(np.random.RandomState(seed).randn(Gs.input_shape[1]) for seed in dst_seeds)
+    src_latents = np.stack([np.random.RandomState(seed).randn(Gs.input_shape[1])] for seed in src_seeds)
+    dst_latents = np.stack([np.random.RandomState(seed).randn(Gs.input_shape[1])] for seed in dst_seeds)
     src_dlatents = Gs.components.mapping.run(src_latents, None) # [seed, layer, component]
     dst_dlatents = Gs.components.mapping.run(dst_latents, None) # [seed, layer, component]
     src_images = Gs.components.synthesis.run(src_dlatents, randomize_noise=False, **synthesis_kwargs)
@@ -105,7 +105,7 @@ def draw_noise_components_figure(png, Gs, w, h, seeds, noise_ranges, flips):
     Gsc = Gs.clone()
     noise_vars = [var for name, var in Gsc.components.synthesis.vars.items() if name.startswith('noise')]
     noise_pairs = list(zip(noise_vars, tflib.run(noise_vars))) # [(var, val), ...]
-    latents = np.stack(np.random.RandomState(seed).randn(Gs.input_shape[1]) for seed in seeds)
+    latents = np.stack([np.random.RandomState(seed).randn(Gs.input_shape[1])] for seed in seeds)
     all_images = []
     for noise_range in noise_ranges:
         tflib.set_vars({var: val * (1 if i in noise_range else 0) for i, (var, val) in enumerate(noise_pairs)})
@@ -126,7 +126,7 @@ def draw_noise_components_figure(png, Gs, w, h, seeds, noise_ranges, flips):
 
 def draw_truncation_trick_figure(png, Gs, w, h, seeds, psis):
     print(png)
-    latents = np.stack(np.random.RandomState(seed).randn(Gs.input_shape[1]) for seed in seeds)
+    latents = np.stack([np.random.RandomState(seed).randn(Gs.input_shape[1])] for seed in seeds)
     dlatents = Gs.components.mapping.run(latents, None) # [seed, layer, component]
     dlatent_avg = Gs.get_var('dlatent_avg') # [component]
 
