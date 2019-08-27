@@ -1,4 +1,4 @@
-## StyleGAN &mdash; Encoder for Official TensorFlow Implementation
+### Understanding the latent space in Generative Adversarial Networks - Controlled human image generation and editing ###
 ![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg?style=plastic)
 ![TensorFlow 1.10](https://img.shields.io/badge/tensorflow-1.10-green.svg?style=plastic)
 ![cuDNN 7.3.1](https://img.shields.io/badge/cudnn-7.3.1-green.svg?style=plastic)
@@ -8,15 +8,20 @@
 
 *These people are real &ndash; latent representation of them was found by using perceptual loss trick. Then this representations were moved along "smiling direction" and transformed back into images*
 
+Instructions:
+Run 'Exploring latent space - StyleGAN.ipynb' on GPU (eg Google Colab).
+The notebook can be used to play with the different pre-trained directions, or train new models to learn directions that fit better.
+
+## StyleGAN &mdash; Encoder for Official TensorFlow Implementation
+
+Obtained from https://github.com/Puzer/stylegan-encoder
+
 Short explanation of encoding approach:
 0) Original pre-trained StyleGAN generator is used for generating images
 1) Pre-trained VGG16 network is used for transforming a reference image and generated image into high-level features space
 2) Loss is calculated as a difference between them in the features space
 3) Optimization is performed only for latent representation which we want to obtain. 
 4) Upon completion of optimization you are able to transform your latent vector as you wish. For example you can find a "smiling direction" in your latent space, move your latent vector in this direction and transform it back to image using the generator. 
-
-**New scripts for finding your own directions will be realised soon. For now you can play with existing ones: smiling, age, gender.**
-**More examples you can find in the [Jupyter notebook](https://github.com/Puzer/stylegan/blob/master/Play_with_latent_directions.ipynb)**
 
 ### Generating latent representation of your images
 You can generate latent representations of your own images using two scripts:
